@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bionic-text b {
+  font-weight: 900;
+}
+
+:root {
+  --page-bg: #ffffff;
+  --text-color: #111111;
+}
+
+.dark {
+  --page-bg: #1a1a1a;
+  --text-color: #f2f2f2;
+}

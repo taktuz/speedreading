@@ -1,0 +1,16 @@
+.bionic-container {
+  /* max-width: 600px; */
+  /* margin: 0 auto; */
+  /* padding: 2rem; */
+  /* background-color: #111; */
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.8;
+  /* border-radius: 10px; */
+  /* font-family: "Georgia", serif; */
+}
+
+.bionic-text strong {
+  font-weight: 700;
+}
