@@ -1,45 +1,69 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./BionicReading.css";
 
 export default function BionicReading({ selectedBook }) {
-  const [text, setText] = useState("");
+  const books = {
+    "Sherlock Holmes 1": "/books/sherlock.txt",
+    "Sherlock Holmes 2": "/books/sherlock2.txt",
+  };
+
+  const [pages, setPages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const isTappedRef = useRef(false); // debounce flag
 
   useEffect(() => {
     const loadBook = async () => {
-      try {
-        const res = await fetch(
-          selectedBook === "Sherlock Holmes 1"
-            ? "/books/sherlock.txt"
-            : "/books/sherlock2.txt"
-        );
-        const raw = await res.text();
-        setText(raw);
-      } catch (err) {
-        console.error("Failed to load book:", err);
+      const res = await fetch(books[selectedBook]);
+      const text = await res.text();
+      const words = text.trim().split(/\s+/);
+      const wordsPerPage = 70;
+
+      const paginated = [];
+      for (let i = 0; i < words.length; i += wordsPerPage) {
+        const pageWords = words.slice(i, i + wordsPerPage).join(" ");
+        paginated.push(pageWords);
       }
+
+      setPages(paginated);
+      setCurrentPage(0);
     };
 
     loadBook();
   }, [selectedBook]);
 
-  function splitWord(word) {
-    const splitIndex = Math.floor(word.length / 2);
-    const bold = word.slice(0, splitIndex);
-    const normal = word.slice(splitIndex);
-    return `<strong>${bold}</strong>${normal}`;
-  }
+  const handleTap = (e) => {
+    if (isTappedRef.current) return; // if recently tapped, block
+    isTappedRef.current = true;
+    setTimeout(() => {
+      isTappedRef.current = false;
+    }, 300); // prevent spamming for 300ms
 
-  const formatted = text
-    .split(/\s+/)
-    .map((word) => splitWord(word))
-    .join(" ");
+    const x = e.clientX || e.touches?.[0]?.clientX || 0;
+    const width = window.innerWidth;
+    if (x < width / 2) {
+      setCurrentPage((prev) => Math.max(0, prev - 1));
+    } else {
+      setCurrentPage((prev) => Math.min(pages.length - 1, prev + 1));
+    }
+  };
 
   return (
-    <div className="bionic-container">
-      <div
-        className="bionic-text"
-        dangerouslySetInnerHTML={{ __html: formatted }}
-      ></div>
+    <div
+      className="bionic-wrapper"
+      onClick={handleTap}
+      onTouchStart={handleTap}
+    >
+      <div className="bionic-page">
+        {(pages[currentPage] || "").split(" ").map((word, i) => {
+          const midpoint = Math.ceil(word.length / 2);
+          return (
+            <span key={i} className="bionic-word">
+              <strong>{word.slice(0, midpoint)}</strong>
+              {word.slice(midpoint)}{" "}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }

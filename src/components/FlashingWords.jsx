@@ -11,7 +11,6 @@ export default function FlashingWords({ selectedBook }) {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [wpm, setWpm] = useState(300);
-  const [flashTrigger, setFlashTrigger] = useState(true);
 
   useEffect(() => {
     const loadBook = async () => {
@@ -40,49 +39,44 @@ export default function FlashingWords({ selectedBook }) {
     return () => clearInterval(interval);
   }, [playing, wpm, words]);
 
-  const handleStartToggle = () => {
-    setPlaying((prev) => !prev);
-    setFlashTrigger(false);
-  };
-
-  const handleRestart = () => {
-    setIndex(0);
-    setPlaying(false);
-    setFlashTrigger(true);
-  };
-
   return (
-    <div className={styles.container}>
-      <div className={styles.wordBox}>
-        <span>{words[index]}</span>
-      </div>
+    <div className={styles.wrapper}>
+      <div className={styles.wordBox}>{words[index]}</div>
 
-      <div className={styles.controls}>
+      <div className={styles.buttonRow}>
         <button
-          onClick={handleStartToggle}
-          className={`${styles.btn} ${
-            playing ? styles.btnMuted : flashTrigger ? styles.btnFlash : ""
-          }`}
+          onClick={() => setPlaying(!playing)}
+          className={`${styles.button} ${playing ? styles.pause : styles.play}`}
         >
           {playing ? "⏸ Pause" : "▶️ Start"}
         </button>
 
-        <button onClick={handleRestart} className={styles.btnMuted}>
+        <button
+          onClick={() => {
+            setIndex(0);
+            setPlaying(false);
+          }}
+          className={styles.restart}
+        >
           🔁 Restart
         </button>
       </div>
 
-      <div className={styles.speed}>
+      <div className={styles.wpmControl}>
         <button
           onClick={() => setWpm((prev) => Math.max(50, prev - 50))}
-          className={styles.speedBtn}
+          disabled={wpm <= 50}
+          className={styles.controlButton}
         >
           ⏪
         </button>
-        <span className={styles.wpmText}>{wpm} WPM</span>
+
+        <span className={styles.wpmLabel}>{wpm} WPM</span>
+
         <button
           onClick={() => setWpm((prev) => Math.min(1000, prev + 50))}
-          className={styles.speedBtn}
+          disabled={wpm >= 1000}
+          className={styles.controlButton}
         >
           ⏩
         </button>

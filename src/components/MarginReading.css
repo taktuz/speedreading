@@ -1,0 +1,38 @@
+.bionic-container {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto; /* 👈 scroll qo‘shadi */
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: start; /* 👈 pastga emas, yuqoriga joylashadi */
+  padding-top: 2rem;
+  box-sizing: border-box;
+  background-color: black;
+}
+
+.bionic-text {
+  max-width: 600px;
+  font-size: 1.25rem;
+  line-height: 28px;
+  text-align: justify;
+  color: #b9e78a;
+  padding: 0 2rem;
+}
+
+.bionic-text p {
+  margin: 0;
+  padding-bottom: 6px;
+  position: relative;
+}
+
+/* Active line highlight */
+.bionic-text .active-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  height: 2px;
+  width: 100%;
+  background-color: #32cd32;
+}

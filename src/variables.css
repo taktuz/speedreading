@@ -1,0 +1,13 @@
+:root {
+  --background: #ffffff;
+  --text: #222222;
+  --page-bg: #ffffff;
+  --text-color: #222222;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --text: #b9e78a;
+  --page-bg: #313131;
+  --text-color: #b9e78a;
+}

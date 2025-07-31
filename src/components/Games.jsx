@@ -1,8 +1,17 @@
-export default function Games() {
+import "./Games.css";
+
+export default function Games({ setScreen }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-      <h2 className="text-lg font-semibold mb-2">Games</h2>
-      <p>Play a training game to boost your speed and memory.</p>
+    <div className="games-container">
+      <h2 className="games-title">Mini Games 🎯</h2>
+
+      <p className="games-description">
+        🚧 Game zone is under construction. We’ll bring fun and focus together!
+      </p>
+
+      <button className="back-home-button" onClick={() => setScreen("home")}>
+        ← Back to Home
+      </button>
     </div>
   );
 }

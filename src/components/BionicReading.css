@@ -1,16 +1,21 @@
-.bionic-container {
-  /* max-width: 600px; */
-  /* margin: 0 auto; */
-  /* padding: 2rem; */
-  /* background-color: #111; */
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: 300;
-  line-height: 1.8;
-  /* border-radius: 10px; */
-  /* font-family: "Georgia", serif; */
+.bionic-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.bionic-text strong {
-  font-weight: 700;
+.bionic-page {
+  max-width: 600px;
+  font-size: 1.25rem;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+.bionic-word {
+  display: inline;
 }
