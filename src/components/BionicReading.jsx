@@ -9,7 +9,7 @@ export default function BionicReading({ selectedBook }) {
 
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const isTappedRef = useRef(false); // debounce flag
+  const isTappedRef = useRef(false);
 
   useEffect(() => {
     const loadBook = async () => {
@@ -32,11 +32,11 @@ export default function BionicReading({ selectedBook }) {
   }, [selectedBook]);
 
   const handleTap = (e) => {
-    if (isTappedRef.current) return; // if recently tapped, block
+    if (isTappedRef.current) return;
     isTappedRef.current = true;
     setTimeout(() => {
       isTappedRef.current = false;
-    }, 300); // prevent spamming for 300ms
+    }, 300);
 
     const x = e.clientX || e.touches?.[0]?.clientX || 0;
     const width = window.innerWidth;
@@ -58,7 +58,7 @@ export default function BionicReading({ selectedBook }) {
           const midpoint = Math.ceil(word.length / 2);
           return (
             <span key={i} className="bionic-word">
-              <strong>{word.slice(0, midpoint)}</strong>
+              <span className="bionic-bold">{word.slice(0, midpoint)}</span>
               {word.slice(midpoint)}{" "}
             </span>
           );
