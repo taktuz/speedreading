@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./MirrorReading.css"; // ✅ CORRECT
+import "./MirrorReading.css"; // ✅ this stays as it is
 
 export default function MirrorReading({ selectedBook }) {
   const books = {
@@ -16,15 +16,17 @@ export default function MirrorReading({ selectedBook }) {
   }, [selectedBook]);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
+      {" "}
+      {/* ⬅ no 'styles.' */}
       {text ? (
         text.split("\n").map((line, i) => (
-          <p key={i} className={styles.mirroredText}>
+          <p key={i} className="mirroredText">
             {line}
           </p>
         ))
       ) : (
-        <p className={styles.loading}>Loading book...</p>
+        <p className="loading">Loading book...</p>
       )}
     </div>
   );
