@@ -8,13 +8,12 @@ export default function Games({ setScreen, setGameMode }) {
     <div className="games-container">
       <h2>🕹️ Games</h2>
       <div className="games-buttons">
-        <button onClick={() => setGameMode("MemorizeNumbers")}>
+        <button onClick={() => setScreen("MemorizeNumbers")}>
           Memorize Numbers
         </button>
 
-        <button onClick={() => navigate("/games/shulte-table")}>
-          Shulte Table
-        </button>
+        <button onClick={() => setScreen("shulte")}>Shulte Table</button>
+
         <button onClick={() => navigate("/games/pairs-of-words")}>
           Pairs of Words
         </button>

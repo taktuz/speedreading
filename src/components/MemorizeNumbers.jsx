@@ -3,6 +3,7 @@ import "./MemorizeNumbers.css";
 
 const MemorizeNumbers = () => {
   const [countdown, setCountdown] = useState(3);
+  const [gameStarted, setGameStarted] = useState(false);
 
   const [sequence, setSequence] = useState([]);
   const [userInput, setUserInput] = useState([]);
@@ -11,8 +12,16 @@ const MemorizeNumbers = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    startNewRound();
-  }, []);
+    if (countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setGameStarted(true);
+      startNewRound();
+    }
+  }, [countdown]);
 
   const startNewRound = () => {
     const newSeq = Array.from({ length: 4 }, () =>
@@ -21,10 +30,20 @@ const MemorizeNumbers = () => {
     setSequence(newSeq);
     setUserInput(Array(4).fill(""));
     setCurrentIndex(0);
-    setShowNumbers(true);
     setIsChecking(false);
 
-    setTimeout(() => setShowNumbers(false), 300);
+    // Step 1: Hide numbers for a moment before flashing
+    setShowNumbers(false);
+
+    // Step 2: After a short delay, show numbers briefly
+    setTimeout(() => {
+      setShowNumbers(true);
+
+      // Step 3: Then hide again after 300ms
+      setTimeout(() => {
+        setShowNumbers(false);
+      }, 300);
+    }, 600); // Delay *before* showing numbers (adjust as needed)
   };
 
   const handleDigitClick = (digit) => {
@@ -59,37 +78,45 @@ const MemorizeNumbers = () => {
 
   return (
     <div className="mn-container">
-      <h2 className="mn-title">Remember numbers</h2>
-
-      <div className="mn-boxes">
-        {sequence.map((num, idx) => (
-          <div key={idx} className={getBoxColor(idx)}>
-            {showNumbers ? num : userInput[idx] || "_"}
-          </div>
-        ))}
-      </div>
-
-      {isChecking && (
-        <button className="mn-check" onClick={startNewRound}>
-          Next
-        </button>
-      )}
-
-      {!isChecking && (
-        <div className="mn-numpad">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((n) => (
-            <button
-              key={n}
-              className="mn-btn"
-              onClick={() => handleDigitClick(n.toString())}
-            >
-              {n}
-            </button>
-          ))}
-          <button className="mn-btn wide" onClick={handleBackspace}>
-            ⌫
-          </button>
+      {!gameStarted ? (
+        <div className="mn-countdown">
+          <h1>{countdown}</h1>
         </div>
+      ) : (
+        <>
+          <h2 className="mn-title">Remember numbers</h2>
+
+          <div className="mn-boxes">
+            {sequence.map((num, idx) => (
+              <div key={idx} className={getBoxColor(idx)}>
+                {showNumbers ? num : userInput[idx] || "_"}
+              </div>
+            ))}
+          </div>
+
+          {isChecking && (
+            <button className="mn-check" onClick={startNewRound}>
+              Next
+            </button>
+          )}
+
+          {!isChecking && (
+            <div className="mn-numpad">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((n) => (
+                <button
+                  key={n}
+                  className="mn-btn"
+                  onClick={() => handleDigitClick(n.toString())}
+                >
+                  {n}
+                </button>
+              ))}
+              <button className="mn-btn wide" onClick={handleBackspace}>
+                ⌫
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
