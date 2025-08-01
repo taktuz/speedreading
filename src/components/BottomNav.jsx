@@ -1,20 +1,20 @@
-import "./BottomNav.css";
-import { FaHome, FaGamepad, FaBook } from "react-icons/fa";
+import { FaHome, FaUser, FaChartBar, FaCog } from "react-icons/fa";
+import styles from "./BottomNav.module.css";
 
 export default function BottomNav({ setScreen }) {
   return (
-    <div className="bottom-nav">
+    <div className={styles.bottomNav}>
       <button onClick={() => setScreen("home")}>
         <FaHome />
-        <span>Home</span>
       </button>
-      <button onClick={() => setScreen("games")}>
-        <FaGamepad />
-        <span>Games</span>
+      <button onClick={() => setScreen("practice")}>
+        <FaUser />
       </button>
-      <button onClick={() => setScreen("library")}>
-        <FaBook />
-        <span>Library</span>
+      <button onClick={() => setScreen("stats")}>
+        <FaChartBar />
+      </button>
+      <button onClick={() => setScreen("settings")}>
+        <FaCog />
       </button>
     </div>
   );

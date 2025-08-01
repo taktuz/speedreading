@@ -6,6 +6,7 @@ body {
   padding: 0;
   height: 100%;
   overflow: hidden;
+  font-family: var(--app-font);
 }
 
 .app {
@@ -147,14 +148,14 @@ body {
 
 .streakLabel {
   font-size: 0.9rem;
-  color: var(--text);
+  color: var(--text-color);
   margin-bottom: 0.2rem;
 }
 
 .streakValue {
   font-size: 1rem;
   font-weight: bold;
-  color: var(--text);
+  color: var(--text-color);
 }
 
 .streakBox {

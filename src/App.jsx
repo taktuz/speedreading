@@ -10,6 +10,7 @@ import Games from "./components/Games";
 import Library from "./components/Library";
 import MirrorReading from "./components/MirrorReading";
 import MarginReading from "./components/MarginReading";
+import MemorizeNumbers from "./components/MemorizeNumbers";
 
 import BottomNav from "./components/BottomNav";
 import { FaArrowLeft } from "react-icons/fa";
@@ -19,6 +20,7 @@ export default function App() {
   const [practiceMode, setPracticeMode] = useState(null);
   const [selectedBook, setSelectedBook] = useState("Sherlock Holmes 1");
   const [darkMode, setDarkMode] = useState(true);
+  const [gameMode, setGameMode] = useState(null); // NEW
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -27,10 +29,13 @@ export default function App() {
   const isPracticeDetail = screen === "practice" && practiceMode !== null;
 
   const showAppbar = !(
-    screen === "practice" && practiceMode === "MarginReading"
+    (screen === "practice" && practiceMode === "MarginReading") ||
+    (screen === "games" && gameMode === "MemorizeNumbers")
   );
+
   const showBottomNav = !(
-    screen === "practice" && practiceMode === "MarginReading"
+    (screen === "practice" && practiceMode === "MarginReading") ||
+    (screen === "games" && gameMode === "MemorizeNumbers")
   );
 
   return (
@@ -46,6 +51,13 @@ export default function App() {
               className={styles.backButton}
             >
               ←
+            </button>
+          ) : screen === "games" && gameMode !== null ? (
+            <button
+              onClick={() => setGameMode(null)}
+              className={styles.backButton}
+            >
+              <FaArrowLeft />
             </button>
           ) : (
             <button
@@ -126,13 +138,17 @@ export default function App() {
         </div>
       )}
 
-      {/* Other Screens */}
+      {/* Games */}
       {screen === "games" && (
         <div className={styles.practiceContainer}>
-          <Games setScreen={setScreen} />
+          {gameMode === null && (
+            <Games setScreen={setScreen} setGameMode={setGameMode} />
+          )}
+          {gameMode === "MemorizeNumbers" && <MemorizeNumbers />}
         </div>
       )}
 
+      {/* Library */}
       {screen === "library" && (
         <div className={styles.practiceContainer}>
           <Library setScreen={setScreen} />

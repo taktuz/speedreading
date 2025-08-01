@@ -5,6 +5,7 @@
 :root {
   --page-bg: #ffffff;
   --text-color: #111111;
+  --app-font: "Inter", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
 }
 
 .dark {
